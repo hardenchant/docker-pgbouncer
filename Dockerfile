@@ -1,5 +1,4 @@
 FROM            buildpack-deps:bionic-curl
-MAINTAINER      Inonit AS <support@inonit.no>
 
 ENV             PGBOUNCER_VERSION 1.13.0
 ENV             PGBOUNCER_TAR_URL http://www.pgbouncer.org/downloads/files/${PGBOUNCER_VERSION}/pgbouncer-${PGBOUNCER_VERSION}.tar.gz
@@ -31,12 +30,13 @@ RUN             cd pgbouncer-${PGBOUNCER_VERSION} \
                     --with-openssl=openssl-prefix \
                 && make && make install
 
-ADD             pgbouncer /etc/pgbouncer
-VOLUME          /etc/pgbouncer
+ADD             entrypoint.sh /
+ADD             pgbouncer_template.ini /
 
 # Make sure pgbouncer user can read and write log files
-RUN             mkdir -p /var/log/pgbouncer && chown -R pgbouncer:pgbouncer /var/log/pgbouncer
+RUN             mkdir -p /var/log/pgbouncer && chown -R pgbouncer:pgbouncer /var/log/pgbouncer \
+                && mkdir -p /etc/pgbouncer && chown -R pgbouncer:pgbouncer /etc/pgbouncer
 
 USER            pgbouncer
-ENTRYPOINT      ["pgbouncer"]
-CMD             ["/etc/pgbouncer/pgbouncer.ini"]
+ENTRYPOINT      ["/entrypoint.sh"]
+CMD             ["pgbouncer /etc/pgbouncer/pgbouncer.ini"]
