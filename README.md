@@ -1,4 +1,4 @@
-### Dockerized version of PgBouncer
+# Dockerized version of PgBouncer
 
 PgBouncer is a lightweight connection pooler for PostgreSQL.
 
@@ -8,7 +8,7 @@ PgBouncer is a lightweight connection pooler for PostgreSQL.
 See the [PgBouncer website](http://www.pgbouncer.org) for more information.
 
 
-#### Fast patch your Postgres app with PgBouncer
+### Fast patch your Postgres app with PgBouncer
 **Warning:** Examine pgbouncer_template.ini before starting, user auth set to trust (without password).
 
 ```
@@ -17,7 +17,7 @@ $ docker run -eMAX_CLIENT_CONN=100 -ePOOL_SIZE=20 -eDB_HOST=pg_host -eDB_USER=pg
 ```
 Then set DB_HOST for your application to host which contains pgbouncer docker instance.
 
-#### TODO
+### TODO
 - [x] support environment variables
 - [ ] auth user with password-sha256
 - [ ] carefully inspect pgbouncer configuration
